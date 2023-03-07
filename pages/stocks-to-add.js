@@ -5,6 +5,8 @@ import Fuse from "fuse.js";
 export default function PopulateTestsList() {
   const [testsList, setTestsList] = useState([]);
   const [userInput, setUserInput] = useState("");
+  const [index, setIndex] = useState(null);
+  const [addButton, setAddButton] = useState(false);
 
   useEffect(() => {
     const fetchTestsList = async () => {
@@ -32,42 +34,92 @@ export default function PopulateTestsList() {
     setUserInput(e.target.value);
   };
 
+  const handleClick = (index) => {
+    console.log("index", index);
+    console.log("testsList[index]", testsList[index]);
+    setIndex(index);
+  };
+
+  const handleAddButton = () => {
+    setAddButton(!addButton);
+  };
+
   return (
     <div>
       <h2 className="text-lg font-medium">Tests List</h2>
-      <div class="flex items-center border border-gray-300 rounded-md">
+      <div className="flex items-center border border-gray-300 rounded-md">
         <input
           type="text"
           placeholder="Search..."
           value={userInput}
           onChange={handleChange}
-          class="flex-1 px-4 py-2 outline-none"
+          className="flex-1 px-4 py-2 outline-none"
         />
-        <button class="px-4 py-2 bg-gray-200 hover:bg-gray-300">
-          <i class="fas fa-search"></i>
-        </button>
       </div>
       <div className="mt-4">
         <ul>
-          {results.map((result) => (
-            <li key={result.item.id}>{result.item.testName}</li>
-          ))}
+          {!addButton &&
+            results.map((result, index) => (
+              <li key={result.item.id} onClick={() => handleClick(index)}>
+                {result.item.testName}
+                <div className="flex justify-end">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
+                    Add
+                  </button>
+                </div>
+              </li>
+            ))}
         </ul>
       </div>
 
       <div className="mt-4">
         <ul className="mt-2">
-          {results.length === 0 &&
-            testsList.map((test) => (
+          {!addButton &&
+            results.length === 0 &&
+            testsList.map((test, index) => (
               <li
                 key={test.id}
                 className="bg-gray-100 hover:bg-gray-200 py-1 px-3 rounded cursor-pointer"
+                onClick={() => handleClick(index)}
               >
                 {test.testName}
+                {addButton ? (
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => handleAddButton()}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                    >
+                      Done
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => handleAddButton()}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                    >
+                      Add
+                    </button>
+                  </div>
+                )}
               </li>
             ))}
         </ul>
+        {addButton && (
+          <div className="flex justify-end">
+            <button
+              onClick={() => handleAddButton()}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+            >
+              Done
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+// you have the index of the clicked element in index, use testsList[index] to return the element, then add a form with the data you want to add
+// then save after addition and substitute the done button at the end with a save button below the form use tailwind css for the form
+// ask the chatbot very simple and straight question to give you ideas step by step
