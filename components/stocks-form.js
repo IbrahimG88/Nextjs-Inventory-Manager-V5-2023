@@ -18,6 +18,7 @@ export default function StocksForm(props) {
   // Use useEffect to synchronize updatedItem state with item prop
   useEffect(() => {
     setUpdatedItem({
+      id: item?.id || "",
       testName: item?.testName || "",
       stocksArray: item?.stocksArray || [],
     });
@@ -40,7 +41,6 @@ export default function StocksForm(props) {
       expiryDate,
     };
 
-    let sum = 0;
     setUpdatedItem((prevItem) => {
       const sum = prevItem.stocksArray.reduce((acc, stock) => {
         return acc + parseInt(stock.amount);
@@ -56,6 +56,32 @@ export default function StocksForm(props) {
   };
 
   let counter = 1; // initialize counter
+
+  async function saveItem(updatedItem) {
+    // save the updatedItem using the api update-stocks endpoint
+    if (updatedItem.stocksArray.length > 0) {
+      try {
+        const response = await fetch("/api/update-stocks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedItem),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to save item");
+        }
+
+        console.log("Item saved successfully");
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
+  // Call the async function
+  saveItem(updatedItem);
 
   return (
     <>
