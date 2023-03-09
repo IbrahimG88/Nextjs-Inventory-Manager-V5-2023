@@ -40,11 +40,17 @@ export default function StocksForm(props) {
       expiryDate,
     };
 
-    // Use setUpdatedItem to update the updatedItem state with the new array
-    setUpdatedItem((prevItem) => ({
-      ...prevItem,
-      stocksArray: [...prevItem.stocksArray, stockEntry],
-    }));
+    let sum = 0;
+    setUpdatedItem((prevItem) => {
+      const sum = prevItem.stocksArray.reduce((acc, stock) => {
+        return acc + parseInt(stock.amount);
+      }, 0);
+      return {
+        ...prevItem,
+        stocksArray: [...prevItem.stocksArray, stockEntry],
+        totalStocks: sum + parseInt(stockEntry.amount),
+      };
+    });
 
     console.log("item after stocks addition", updatedItem);
   };
@@ -54,7 +60,7 @@ export default function StocksForm(props) {
   return (
     <>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-        <title className="text-3xl block text-gray-700 text-sm font-bold mb-2">
+        <title className="text-4xl block text-gray-700 text-sm font-bold mb-2">
           Item name: {item.testName}
         </title>
         <br />
@@ -108,15 +114,22 @@ export default function StocksForm(props) {
         </div>
         <button
           type="submit"
-          className="
-            bg-blue-500 hover:bg-blue-
-            700 text-white font-bold py-
-            2 px-
-            4 rounded focus:outline-none 
-            focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Submit
         </button>
+        <div className="flex justify-between">
+          <label
+            htmlFor="expiryDate"
+            className="text-4xl block text-gray-700 text-sm font-bold mb-2"
+          >
+            Total Stocks:
+          </label>
+          <h1 className="text-4xl block text-gray-700 text-sm font-bold mb-2">
+            {" "}
+            {updatedItem.totalStocks}
+          </h1>
+        </div>
       </form>
       <table className="table-auto w-full">
         <thead>
