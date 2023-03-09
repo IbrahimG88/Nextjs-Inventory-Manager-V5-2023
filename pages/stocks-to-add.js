@@ -128,7 +128,3 @@ export default function PopulateTestsList() {
     </div>
   );
 }
-
-// you have the index of the clicked element in index, use testsList[index] to return the element, then add a form with the data you want to add
-// then save after addition and substitute the done button at the end with a save button below the form use tailwind css for the form
-// ask the chatbot very simple and straight question to give you ideas step by step

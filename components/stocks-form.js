@@ -11,8 +11,10 @@ export default function StocksForm(props) {
 
   // Add a default value for updatedItem state in case item prop is missing or invalid
   const [updatedItem, setUpdatedItem] = useState({
+    id: item?.id || "",
     testName: item?.testName || "",
     stocksArray: item?.stocksArray || [],
+    totalStocks: item?.totalStocks || 0,
   });
 
   // Use useEffect to synchronize updatedItem state with item prop
@@ -21,6 +23,12 @@ export default function StocksForm(props) {
       id: item?.id || "",
       testName: item?.testName || "",
       stocksArray: item?.stocksArray || [],
+      totalStocks:
+        item?.totalStocks ||
+        item?.stocksArray.reduce(
+          (acc, stock) => acc + parseInt(stock.amount),
+          0
+        ),
     });
   }, [item]);
 
@@ -28,6 +36,9 @@ export default function StocksForm(props) {
   useEffect(() => {
     console.log("item after stocks addition", updatedItem);
     // You can also call other functions or pass the updatedItem value to other components here
+
+    // Call the async function
+    saveItem(updatedItem);
   }, [updatedItem]);
 
   // Define a function to handle form submission
@@ -79,9 +90,6 @@ export default function StocksForm(props) {
       }
     }
   }
-
-  // Call the async function
-  saveItem(updatedItem);
 
   return (
     <>
@@ -144,7 +152,7 @@ export default function StocksForm(props) {
         >
           Submit
         </button>
-        <div className="flex justify-between">
+        <div className=" flex justify-between">
           <label
             htmlFor="expiryDate"
             className="text-4xl block text-gray-700 text-sm font-bold mb-2"
