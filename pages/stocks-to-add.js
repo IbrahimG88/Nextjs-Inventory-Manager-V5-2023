@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetcher } from "../lib/fetcher";
 import Fuse from "fuse.js";
+import StocksForm from "@/components/stocks-form";
 
 export default function PopulateTestsList() {
   const [testsList, setTestsList] = useState([]);
@@ -84,13 +85,17 @@ export default function PopulateTestsList() {
               >
                 {test.testName}
                 {addButton ? (
-                  <div className="flex justify-end">
-                    <button
-                      onClick={() => handleAddButton()}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
-                    >
-                      Done
-                    </button>
+                  <div>
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => handleAddButton()}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                      >
+                        Done
+                      </button>
+                      <h1>I will add the form here</h1>
+                      <StocksForm item={testsList[index]} />
+                    </div>
                   </div>
                 ) : (
                   <div className="flex justify-end">
@@ -106,13 +111,17 @@ export default function PopulateTestsList() {
             ))}
         </ul>
         {addButton && (
-          <div className="flex justify-end">
-            <button
-              onClick={() => handleAddButton()}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
-            >
-              Done
-            </button>
+          <div>
+            <div className="flex justify-end">
+              <button
+                onClick={() => handleAddButton()}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+              >
+                Done
+              </button>
+            </div>
+            <h1>And I will add the form here</h1>
+            <StocksForm item={testsList[index]} />
           </div>
         )}
       </div>
