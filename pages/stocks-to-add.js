@@ -37,7 +37,7 @@ export default function PopulateTestsList() {
 
   const handleClick = (index) => {
     console.log("index", index);
-    console.log("testsList[index]", testsList[index]);
+
     setIndex(index);
   };
 
@@ -61,7 +61,16 @@ export default function PopulateTestsList() {
         <ul>
           {!addButton &&
             results.map((result, index) => (
-              <li key={result.item.id} onClick={() => handleClick(index)}>
+              <li
+                key={result.item.id}
+                onClick={() => {
+                  const itemClicked = testsList.findIndex(
+                    (item) => item.id === result.item.id
+                  );
+
+                  handleClick(testsList[itemClicked]);
+                }}
+              >
                 {result.item.testName}
                 <div className="flex justify-end">
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">

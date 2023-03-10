@@ -196,3 +196,5 @@ export default function StocksForm(props) {
     </>
   );
 }
+
+// next issue to work on: when you search for an item the indexes get messed up we need to use the item id instead  of the index
