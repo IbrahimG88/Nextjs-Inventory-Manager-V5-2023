@@ -10,19 +10,25 @@ export default function PopulateTestsList() {
   const [addButton, setAddButton] = useState(false);
 
   useEffect(() => {
-    const fetchTestsList = async () => {
+    const fetchTestsList = async (testsList) => {
       const data = await fetcher("/api/get-testslist");
       if (data) {
-        setTestsList(data);
+        testsList(data);
       } else {
         console.error("Error fetching tests list from database");
       }
     };
 
     if (testsList.length === 0) {
-      fetchTestsList();
+      fetchTestsList(setTestsList);
+
+      // Refresh data every 5 seconds
+      const intervalId = setInterval(() => fetchTestsList(setTestsList), 5000);
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(intervalId);
     }
-  }, [testsList]);
+  }, []);
 
   const fuse = new Fuse(testsList, {
     keys: ["testName"],
@@ -41,7 +47,7 @@ export default function PopulateTestsList() {
     setIndex(index);
   };
 
-  const handleAddButton = () => {
+  const handleAddButton = async () => {
     setAddButton(!addButton);
   };
 
@@ -57,6 +63,7 @@ export default function PopulateTestsList() {
           className="flex-1 px-4 py-2 outline-none"
         />
       </div>
+
       <div className="mt-4">
         <ul>
           {!addButton &&
@@ -64,16 +71,19 @@ export default function PopulateTestsList() {
               <li
                 key={result.item.id}
                 onClick={() => {
-                  const itemClicked = testsList.findIndex(
+                  const itemClickedIndex = testsList.findIndex(
                     (item) => item.id === result.item.id
                   );
 
-                  handleClick(testsList[itemClicked]);
+                  handleClick(itemClickedIndex);
                 }}
               >
                 {result.item.testName}
                 <div className="flex justify-end">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                    onClick={() => handleAddButton()}
+                  >
                     Add
                   </button>
                 </div>
