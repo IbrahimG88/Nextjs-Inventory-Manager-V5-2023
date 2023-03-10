@@ -1,4 +1,4 @@
-import { useState, setState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function StocksForm(props) {
   // Define state variables for input values
@@ -19,16 +19,17 @@ export default function StocksForm(props) {
 
   // Use useEffect to synchronize updatedItem state with item prop
   useEffect(() => {
+    const newTotalStocks =
+      item?.stocksArray?.reduce(
+        (acc, stock) => acc + parseInt(stock.amount),
+        0
+      ) || 0;
+
     setUpdatedItem({
       id: item?.id || "",
       testName: item?.testName || "",
       stocksArray: item?.stocksArray || [],
-      totalStocks:
-        item?.totalStocks ||
-        item?.stocksArray.reduce(
-          (acc, stock) => acc + parseInt(stock.amount),
-          0
-        ),
+      totalStocks: newTotalStocks,
     });
   }, [item]);
 
