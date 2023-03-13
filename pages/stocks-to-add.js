@@ -23,7 +23,7 @@ export default function PopulateTestsList() {
       fetchTestsList(setTestsList);
 
       // Refresh data every 5 seconds
-      const intervalId = setInterval(() => fetchTestsList(setTestsList), 5000);
+      const intervalId = setInterval(() => fetchTestsList(setTestsList), 15000);
 
       // Cleanup interval on component unmount
       return () => clearInterval(intervalId);
