@@ -16,16 +16,20 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useEffect, useState } from "react";
 import { fetcher } from "@/lib/fetcher";
 import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
 
 export default function CollapsibleTable() {
   const [testsList, setTestsList] = useState([]);
   const [openStates, setOpenStates] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredTestsList, setFilteredTestsList] = useState([]);
 
   useEffect(() => {
     const fetchTestsList = async () => {
       const data = await fetcher("/api/get-testslist");
       if (data) {
         setTestsList(data);
+        setFilteredTestsList(data);
         setOpenStates(Object.fromEntries(data.map((item) => [item.id, false])));
       } else {
         console.error("Error fetching tests list from database");
@@ -53,8 +57,24 @@ export default function CollapsibleTable() {
     color: theme.palette.warning.main,
   }));
 
+  const handleSearchInputChange = (event) => {
+    const inputValue = event.target.value;
+    const filteredTests = testsList.filter((test) =>
+      test.testName.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setFilteredTestsList(filteredTests);
+  };
   return (
     <TableContainer component={Paper}>
+      <Box sx={{ maxWidth: 800 }}>
+        <TextField
+          label="Search by Test Name"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          onChange={handleSearchInputChange}
+        />
+      </Box>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
@@ -64,7 +84,7 @@ export default function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {testsList.map((item) => (
+          {filteredTestsList.map((item) => (
             <React.Fragment key={item.id}>
               <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                 <TableCell>
