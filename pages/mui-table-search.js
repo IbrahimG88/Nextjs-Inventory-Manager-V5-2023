@@ -138,7 +138,7 @@ export default function CollapsibleTable() {
                                 today.getDate()
                               );
                               return (
-                                <>
+                                <React.Fragment key={stock.id}>
                                   {expiryDate < today ? (
                                     <ExpiredRow key={stock.id.$numberInt}>
                                       <TableCell>{stock.instrument}</TableCell>
@@ -158,7 +158,7 @@ export default function CollapsibleTable() {
                                       <TableCell>{stock.expiryDate}</TableCell>
                                     </TableRow>
                                   )}
-                                </>
+                                </React.Fragment>
                               );
                             })}
                         </TableBody>
