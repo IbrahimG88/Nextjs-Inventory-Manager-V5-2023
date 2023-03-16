@@ -39,7 +39,7 @@ export default function StocksForm(props) {
     // You can also call other functions or pass the updatedItem value to other components here
 
     // Call the async function
-    saveItem(updatedItem);
+    //saveItem(updatedItem);
   }, [updatedItem]);
 
   // Define a function to handle form submission
@@ -65,6 +65,7 @@ export default function StocksForm(props) {
     });
 
     console.log("item after stocks addition", updatedItem);
+    saveItem(updatedItem);
   };
 
   let counter = 1; // initialize counter
