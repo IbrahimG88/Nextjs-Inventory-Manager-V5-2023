@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fetcher } from "../lib/fetcher";
 
 export default function StocksForm(props) {
   // Define state variables for input values
@@ -69,6 +70,8 @@ export default function StocksForm(props) {
   };
 
   let counter = 1; // initialize counter
+
+  // send the updated item to the parent component so when it is recalled the stockForm component it uses the updated item
 
   async function saveItem(updatedItem) {
     // save the updatedItem using the api update-stocks endpoint
