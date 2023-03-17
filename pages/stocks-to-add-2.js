@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fetcher } from "../lib/fetcher";
 
 export default function Example() {
   const [data, setData] = useState([]);
