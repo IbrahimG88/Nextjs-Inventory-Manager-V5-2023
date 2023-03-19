@@ -12,6 +12,8 @@ export default function StocksToAdd() {
   useEffect(() => {
     const fetchTestsList = async () => {
       const data = await fetcher("/api/get-testslist");
+
+      // update testsList value if its value has changed each 5 seconds interval
       if (data && JSON.stringify(data) !== JSON.stringify(testsList)) {
         setTestsList(data);
       } else if (!data) {
