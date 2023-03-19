@@ -11,6 +11,7 @@ export default function Example() {
     expiryDate: "",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [formForUpdate, setFormForUpdate] = useState(false);
 
   useEffect(() => {
     fetchTestsList();
@@ -48,6 +49,7 @@ export default function Example() {
   };
 
   const updateData = async (id) => {
+    console.log("formForUpdate", formForUpdate);
     const newData = {
       id: id,
       testName: form.testName,
@@ -84,48 +86,72 @@ export default function Example() {
         {filteredData.map((item) => (
           <li key={item.id}>
             <h3>{item.testName}</h3>
-            <p>Total Stocks: {item.totalStocks}</p>
+            <p>Total Stocks: {item.totalStocks}</p>{" "}
+            {formForUpdate ? (
+              <button onClick={() => setFormForUpdate(false)}>Done</button>
+            ) : (
+              <button
+                onClick={() => {
+                  updateData(item.id);
+                  setFormForUpdate(true);
+                }}
+              >
+                Update
+              </button>
+            )}
+            {formForUpdate && (
+              <div>
+                <form onSubmit={addData}>
+                  <input
+                    type="text"
+                    placeholder="Test Name"
+                    value={item.testName}
+                    onChange={(e) =>
+                      setForm({ ...form, testName: e.target.value })
+                    }
+                  />
+                  <input
+                    type="number"
+                    placeholder="Total Stocks"
+                    value={form.totalStocks}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        totalStocks: parseInt(e.target.value),
+                      })
+                    }
+                  />
+                  <input
+                    type="number"
+                    placeholder="Amount"
+                    value={form.amount}
+                    onChange={(e) =>
+                      setForm({ ...form, amount: e.target.value })
+                    }
+                  />
+                  <input
+                    type="date"
+                    placeholder="Expiry Date"
+                    value={form.expiryDate}
+                    onChange={(e) =>
+                      setForm({ ...form, expiryDate: e.target.value })
+                    }
+                  />
+                  <button type="submit">Add</button>
+                </form>
+              </div>
+            )}
             <ul>
-              {item.stocksArray.map((stock) => (
+              {item?.stocksArray?.map((stock) => (
                 <li key={stock.id}>
                   <p>Amount: {stock.amount}</p>
-                  <p>Expiry Date: {stock.expiryDate}</p>
+                  <p>Expiry Date: {stock.expiryDate}</p>{" "}
                 </li>
               ))}
             </ul>
-            <button onClick={() => updateData(item.id)}>Update</button>
           </li>
         ))}
       </ul>
-      <form onSubmit={addData}>
-        <input
-          type="text"
-          placeholder="Test Name"
-          value={form.testName}
-          onChange={(e) => setForm({ ...form, testName: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Total Stocks"
-          value={form.totalStocks}
-          onChange={(e) =>
-            setForm({ ...form, totalStocks: parseInt(e.target.value) })
-          }
-        />
-        <input
-          type="number"
-          placeholder="Amount"
-          value={form.amount}
-          onChange={(e) => setForm({ ...form, amount: e.target.value })}
-        />
-        <input
-          type="date"
-          placeholder="Expiry Date"
-          value={form.expiryDate}
-          onChange={(e) => setForm({ ...form, expiryDate: e.target.value })}
-        />
-        <button type="submit">Add</button>
-      </form>
     </div>
   );
 }
