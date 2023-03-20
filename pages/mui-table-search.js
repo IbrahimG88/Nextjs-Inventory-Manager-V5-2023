@@ -65,7 +65,7 @@ export default function CollapsibleTable() {
     setFilteredTestsList(filteredTests);
   };
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="p-4">
       <Box sx={{ maxWidth: 800 }}>
         <TextField
           label="Search by Test Name"

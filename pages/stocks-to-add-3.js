@@ -52,8 +52,8 @@ export default function StocksToAdd() {
   };
 
   return (
-    <div>
-      <h2 className="text-lg font-medium">Tests List</h2>
+    <div className="p-4">
+      <h2 className="text-lg font-medium p-2">Tests List</h2>
       <div className="flex items-center border border-gray-300 rounded-md">
         <input
           type="text"
