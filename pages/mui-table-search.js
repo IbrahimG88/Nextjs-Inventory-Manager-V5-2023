@@ -140,19 +140,19 @@ export default function CollapsibleTable() {
                               return (
                                 <React.Fragment key={stock.id}>
                                   {expiryDate < today ? (
-                                    <ExpiredRow key={stock.id.$numberInt}>
+                                    <ExpiredRow key={stock.id?.$numberInt}>
                                       <TableCell>{stock.instrument}</TableCell>
                                       <TableCell>{stock.amount}</TableCell>
                                       <TableCell>{stock.expiryDate}</TableCell>
                                     </ExpiredRow>
                                   ) : expiryDate < oneMonthFromToday ? (
-                                    <SoonRow key={stock.id.$numberInt}>
+                                    <SoonRow key={stock.id?.$numberInt}>
                                       <TableCell>{stock.instrument}</TableCell>
                                       <TableCell>{stock.amount}</TableCell>
                                       <TableCell>{stock.expiryDate}</TableCell>
                                     </SoonRow>
                                   ) : (
-                                    <TableRow key={stock.id.$numberInt}>
+                                    <TableRow key={stock.id?.$numberInt}>
                                       <TableCell>{stock.instrument}</TableCell>
                                       <TableCell>{stock.amount}</TableCell>
                                       <TableCell>{stock.expiryDate}</TableCell>
