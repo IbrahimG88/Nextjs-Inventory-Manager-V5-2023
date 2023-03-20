@@ -38,10 +38,20 @@ export default function TemporaryDrawer() {
       >
         <MenuIcon />
       </IconButton>
+      <Box height="1rem" />
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <List>
           {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem
+              button
+              key={text}
+              sx={{
+                backgroundColor: "#f5f5f5",
+                borderRadius: "10px",
+                marginBottom: "10px",
+                marginRight: "50px",
+              }}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
@@ -52,7 +62,15 @@ export default function TemporaryDrawer() {
         <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem
+              button
+              key={text}
+              sx={{
+                backgroundColor: "#f5f5f5",
+                borderRadius: "10px",
+                marginBottom: "10px",
+              }}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
