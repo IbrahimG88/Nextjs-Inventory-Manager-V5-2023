@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 import { connectToDatabase } from "../lib/db";
 import { getPreviousDate } from "../lib/helpers/get-set-dates";
 import { getNowDate } from "../lib/helpers/get-set-dates";
@@ -31,6 +30,17 @@ export async function getServerSideProps() {
     // Use JSON.stringify() to convert date2 into a string
     const dateValue = JSON.stringify(appVariable.date2);
 
+    // set Mongo Date to now add a conditional later to only update the date if the data in mongo was updated  also here in getServerSideProps
+    const nowDate = await collectionAppVariables.updateOne(
+      { date2: { $exists: true } },
+      { $currentDate: { date2: true } }
+    );
+    if (!nowDate) {
+      return res
+        .status(404)
+        .json({ message: "now Date on Mongo was not updated " });
+    }
+
     // Return the value of date2 as a prop
     return {
       props: {
@@ -49,6 +59,7 @@ export default function Home(props) {
   const previousDateDetails = getPreviousDate(dateValue);
   console.log("getNowDate()", getNowDate());
   const nowDateDetails = getNowDate();
+  console.log("now hours", nowDateDetails.hours);
 
   return (
     <>
