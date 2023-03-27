@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { connectToDatabase } from "../lib/db";
 import { getPreviousDate } from "../lib/helpers/get-set-dates";
 import { getNowDate } from "../lib/helpers/get-set-dates";
+import { getConsumptionData } from "../lib/helpers/get-consumption-data";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,10 +42,20 @@ export async function getServerSideProps() {
         .json({ message: "now Date on Mongo was not updated " });
     }
 
+    // get the consumptionArray
+    const previousDateDetails = getPreviousDate(dateValue);
+    const nowDateDetails = getNowDate();
+    const consumptionArray = await getConsumptionData(
+      previousDateDetails,
+      nowDateDetails
+    );
+
     // Return the value of date2 as a prop
+
     return {
       props: {
-        dateValue,
+        dateValue: dateValue,
+        consumptionArray: consumptionArray,
       },
     };
   } catch (error) {
@@ -60,6 +71,8 @@ export default function Home(props) {
   console.log("getNowDate()", getNowDate());
   const nowDateDetails = getNowDate();
   console.log("now hours", nowDateDetails.hours);
+  const consumptionArray = props.consumptionArray;
+  console.log("consumptionArray", consumptionArray);
 
   return (
     <>
