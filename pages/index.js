@@ -5,6 +5,7 @@ import { connectToDatabase } from "../lib/db";
 import { getPreviousDate } from "../lib/helpers/get-set-dates";
 import { getNowDate } from "../lib/helpers/get-set-dates";
 import { getConsumptionData } from "../lib/helpers/get-consumption-data";
+import { subtractArrays } from "@/lib/helpers/subtract-Consumption";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export async function getServerSideProps() {
     const client = await connectToDatabase();
     const db = client.db("myFirstDatabase");
     const collectionAppVariables = db.collection("appVariables");
+    const collectionInventory2 = db.collection("inventory2");
 
     // for more processing add another const collectionInventory2 = db.collection("inventory2");
 
@@ -37,9 +39,12 @@ export async function getServerSideProps() {
       { $currentDate: { date2: true } }
     );
     if (!nowDate) {
-      return res
-        .status(404)
-        .json({ message: "now Date on Mongo was not updated " });
+      return res.status(404).json({ message: "now Date on Mongo not found " });
+    }
+
+    const testsListFromMongo = await collectionInventory2.findOne({});
+    if (!testsListFromMongo) {
+      return res.status(404).json({ message: "testsList not loaded " });
     }
 
     // get the consumptionArray
@@ -50,12 +55,20 @@ export async function getServerSideProps() {
       nowDateDetails
     );
 
-    // Return the value of date2 as a prop
+    // get the testsList from MongoDB which is Array B:
+
+    // calculate the consumption from the testsList in MongoDB
+    // need to add the testsList
+    const applyConsumptionToMongoData = subtractArrays(
+      consumptionArray,
+      JSON.stringify(testsListFromMongo)
+    );
 
     return {
       props: {
         dateValue: dateValue,
         consumptionArray: consumptionArray,
+        applyConsumptionToMongoData: applyConsumptionToMongoData,
       },
     };
   } catch (error) {
@@ -73,6 +86,8 @@ export default function Home(props) {
   console.log("now hours", nowDateDetails.hours);
   const consumptionArray = props.consumptionArray;
   console.log("consumptionArray", consumptionArray);
+  const applyConsumptionToMongoData = props.applyConsumptionToMongoData;
+  console.log("applyConsumptionToMongoData", applyConsumptionToMongoData);
 
   return (
     <>

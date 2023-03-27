@@ -31,6 +31,7 @@ export default function PopulateTestsList() {
       const data = await fetcher("/api/get-testslist");
       if (data) {
         setTestsList(data);
+        console.log("testsList", data);
       } else {
         console.error("Error fetching tests list from database");
       }
