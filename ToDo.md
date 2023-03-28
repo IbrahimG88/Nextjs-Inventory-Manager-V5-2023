@@ -1,3 +1,11 @@
+now save the changes in mongodb
+add a spinner when loading
+work on the menu drawer
+add the order code
+then add next-auth code
+
+---
+
 receive the data from lis for consumpion get the date and set it after you receive the data
 
 add the code in components folder and call it from index.js

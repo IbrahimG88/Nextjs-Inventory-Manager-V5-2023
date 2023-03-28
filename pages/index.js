@@ -60,8 +60,8 @@ export async function getServerSideProps() {
     // calculate the consumption from the testsList in MongoDB
     // need to add the testsList
     const applyConsumptionToMongoData = subtractArrays(
-      consumptionArray,
-      JSON.stringify(testsListFromMongo)
+      JSON.parse(consumptionArray),
+      testsListFromMongo
     );
 
     return {
