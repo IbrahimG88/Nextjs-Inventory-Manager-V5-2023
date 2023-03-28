@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetcher } from "../lib/fetcher";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function StocksForm(props) {
   // Define state variables for input values
@@ -219,18 +220,12 @@ export default function StocksForm(props) {
                   <td className="border px-4 py-2">{stock.expiryDate}</td>
                   <td>
                     {" "}
-                    <button
+                    <IconButton
                       className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
                       onClick={() => handleDelete(index)}
                     >
-                      <svg
-                        className="fill-current w-4 h-4 mr-2"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M10 1.6a8.4 8.4 0 100 16.8 8.4 8.4 0 000-16.8zM13.4 14l-1.4 1.4L10 11.4l-2-2L6.6 10l2 2-2.6 2.6L5 13.4l2.6-2.6 2-2L9.4 7l2 2L14 6.6l1.4 1.4L11.4 10l2 2z" />
-                      </svg>
-                    </button>
+                      <DeleteIcon />
+                    </IconButton>
                   </td>
                 </tr>
               )
