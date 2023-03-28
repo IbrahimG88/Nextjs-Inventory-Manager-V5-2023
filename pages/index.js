@@ -84,7 +84,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default async function Home(props) {
+export default function Home(props) {
   const dateValue = props.dateValue;
   console.log("getPreviousDate()", getPreviousDate(dateValue));
   const previousDateDetails = getPreviousDate(dateValue);
