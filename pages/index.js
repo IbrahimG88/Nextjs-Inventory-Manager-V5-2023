@@ -33,15 +33,6 @@ export async function getServerSideProps() {
     // Use JSON.stringify() to convert date2 into a string
     const dateValue = JSON.stringify(appVariable.date2);
 
-    // set Mongo Date to now add a conditional later to only update the date if the data in mongo was updated  also here in getServerSideProps
-    const nowDate = await collectionAppVariables.updateOne(
-      { date2: { $exists: true } },
-      { $currentDate: { date2: true } }
-    );
-    if (!nowDate) {
-      return res.status(404).json({ message: "now Date on Mongo not found " });
-    }
-
     const testsListFromMongo = await collectionInventory2.findOne({});
     if (!testsListFromMongo) {
       return res.status(404).json({ message: "testsList not loaded " });
@@ -54,6 +45,22 @@ export async function getServerSideProps() {
       previousDateDetails,
       nowDateDetails
     );
+
+    // update the date only if you received the consumption data array
+    if (consumptionArray.length >= 1) {
+      // set Mongo Date to now add a conditional later to only update the date if the data in mongo was updated  also here in getServerSideProps
+      // if no date2 was found set the date2 value to now
+      const nowDate = await collectionAppVariables.updateOne(
+        { date2: { $exists: true } },
+        { $currentDate: { date2: true } },
+        { upsert: true }
+      );
+      if (!nowDate) {
+        return res
+          .status(404)
+          .json({ message: "now Date on Mongo not found " });
+      }
+    }
 
     // get the testsList from MongoDB which is Array B:
 

@@ -70,6 +70,7 @@ export default function StocksToAdd() {
             results.map((result, index) => (
               <li
                 key={result.item.id}
+                className="bg-gray-100 hover:bg-gray-200 py-1 px-3 rounded cursor-pointer"
                 onClick={() => {
                   const itemClickedIndex = testsList.findIndex(
                     (item) => item.id === result.item.id
