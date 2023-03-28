@@ -51,9 +51,9 @@ export default function StocksForm(props) {
       totalStocks: newTotalStocks,
     };
 
-    setUpdatedItem(newUpdatedItem);
     console.log("item after stocks deletion", newUpdatedItem);
     saveItem(newUpdatedItem);
+    setUpdatedItem(newUpdatedItem);
   };
 
   const handleSubmit = async (e) => {
@@ -78,9 +78,9 @@ export default function StocksForm(props) {
         totalStocks: newTotalStocks,
       };
 
-      setUpdatedItem(newUpdatedItem);
       console.log("item after stocks addition", newUpdatedItem);
       await saveItem(newUpdatedItem);
+      setUpdatedItem(newUpdatedItem);
       setInstrument("");
       setAmount("");
       setExpiryDate("");
