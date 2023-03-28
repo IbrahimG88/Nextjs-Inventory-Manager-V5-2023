@@ -36,25 +36,29 @@ export default function StocksForm(props) {
     });
   }, [item]);
 
-  const handleDelete = (index) => {
-    console.log("index", index);
-    const newStocksArray = updatedItem.stocksArray.filter(
-      // filter out the stock to be deleted
-      (stock, i) => i !== index
-    );
-    const newTotalStocks = newStocksArray.reduce((acc, stock) => {
-      return acc + parseInt(stock.amount);
-    }, 0);
+  const handleDelete = async (index) => {
+    try {
+      console.log("index", index);
+      const newStocksArray = updatedItem.stocksArray.filter(
+        // filter out the stock to be deleted
+        (stock, i) => i !== index
+      );
+      const newTotalStocks = newStocksArray.reduce((acc, stock) => {
+        return acc + parseInt(stock.amount);
+      }, 0);
 
-    const newUpdatedItem = {
-      ...updatedItem,
-      stocksArray: newStocksArray,
-      totalStocks: newTotalStocks,
-    };
+      const newUpdatedItem = {
+        ...updatedItem,
+        stocksArray: newStocksArray,
+        totalStocks: newTotalStocks,
+      };
 
-    console.log("item after stocks deletion", newUpdatedItem);
-    saveItem(newUpdatedItem);
-    setUpdatedItem(newUpdatedItem);
+      console.log("item after stocks deletion", newUpdatedItem);
+      await saveItem(newUpdatedItem);
+      setUpdatedItem(newUpdatedItem);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -97,27 +101,26 @@ export default function StocksForm(props) {
   async function saveItem(updatedItem) {
     // save the updatedItem using the api update-stocks endpoint
     console.log("updatedItem from saveItem function", updatedItem);
-    if (updatedItem.stocksArray.length > 0) {
-      try {
-        setIsUpdating(true); // Set isUpdating to true before calling setUpdatedItem
-        const response = await fetch("/api/update-stocks", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedItem),
-        });
 
-        if (!response.ok) {
-          throw new Error("Failed to save item");
-        }
+    try {
+      setIsUpdating(true); // Set isUpdating to true before calling setUpdatedItem
+      const response = await fetch("/api/update-stocks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedItem),
+      });
 
-        console.log("Item saved successfully");
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsUpdating(false); // Set isUpdating to false after setUpdatedItem is completed
+      if (!response.ok) {
+        throw new Error("Failed to save item");
       }
+
+      console.log("Item saved successfully");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUpdating(false); // Set isUpdating to false after setUpdatedItem is completed
     }
   }
 
