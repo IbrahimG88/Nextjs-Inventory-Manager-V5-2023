@@ -1,27 +1,14 @@
-stopped here: save the updatedTestsList to mongo
+VIP: next stage of the app is to create monthly average per month and yearly average per month for each test using api endpoints data to predict an amount of a given test will be sufficient for how many days
 
-now save the changes in mongodb
-add a spinner when loading
-work on the menu drawer
+work on the menu drawer and add the real components and linking to them actually, and a nice interface from tailwind or material ui or a grid for the homepage
+The homepage: create list with dividers and each elements from homepage or menu have an icon, and the header includes the app name and
+navigates to the homepage write it in a nice way using tailwind or material ui
+add app icon next to the name
 add the order code
 then add next-auth code
+add splash screen for the app
 
----
-
-receive the data from lis for consumpion get the date and set it after you receive the data
-
-add the code in components folder and call it from index.js
-
-progress:
-
-now i get the date from database,
-next extract all day, and time from database date, and do the same to extract all values from now date, then use these data to get from lis the lab consumption
-
----
-
-update the date in mongo with the now date properties
-
-create the fetch request using previous and now date and use your created get request from previous app, if there is a result and length is not 0 update the date in mongo
+add setting component option, which can: poppulate testsList and upload all testsData to mongo, you already have this functionality in your project, delete them from mongo if you want to reset all app data\
 
 ---
 
@@ -34,5 +21,3 @@ i Have this array A: [{"name":"Total IgE","frequency":1},{"name":"Complete Blood
 [{id: 7,testName:"Creatinine Clearance",totalStocks:400,stocksArray: {amount: "200",expiryDate: "2023-03-24":id:1,instrument: "vidas", amount: "200",expiryDate: "2023-03-24"}];;;;;;; I want to check the frequency of array A of a name eg Creatinine Clearance and the matching testName from Array B with testName also Creatinine clearance. The frequency for example from Array A if it was say 200, I want to do for the matching item from array B: to deduct 200 from the object property totalStocks, and I want to deduct 200 from all the stocksArray list items from property amounts a total of 200 also. Subtract the 200 from the stocksArray with the nearest expiry date. If during the subtraction the amount of this stocksArray object or list item it reached zero start subtracting the rest of the 200 from the next item with nearest expiryDate and so on
 
 ---
-
-now fix the code in subtract-consumption file and test it line by line and get from console the arrays A and B examples and run them in the file and copy it in a pages file to run and test
