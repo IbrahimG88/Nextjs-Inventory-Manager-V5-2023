@@ -71,6 +71,11 @@ export async function getServerSideProps() {
       testsListFromMongo
     );
 
+    // update the testsList in MongoDB with the updated consumption
+    const query = { testsList: { $exists: true } };
+    const updateDocument = { $set: { testsList: applyConsumptionToMongoData } };
+    const result = await collectionInventory2.updateOne(query, updateDocument);
+
     return {
       props: {
         dateValue: dateValue,
