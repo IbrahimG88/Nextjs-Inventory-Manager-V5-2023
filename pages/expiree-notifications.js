@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Fuse from "fuse.js";
+import SearchIcon from "@mui/icons-material/Search";
 import { connectToDatabase } from "../lib/db";
 
 export async function getServerSideProps() {
@@ -29,26 +30,29 @@ export async function getServerSideProps() {
 export default function StocksComponent({ data }) {
   const [expiryFilter, setExpiryFilter] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   const filteredData = data
     .map((item) => {
       if (!Array.isArray(item.stocksArray)) {
         return null;
       }
-      const filteredStocks = item.stocksArray.filter((stock) => {
-        const [year, month, day] = stock.expiryDate.split("-").map(Number);
-        const expiryDate = new Date(Date.UTC(year, month - 1, day));
-        const currentDate = new Date();
-        const timeDiff = expiryDate.getTime() - currentDate.getTime();
-        const daysDiff = timeDiff / (1000 * 3600 * 24);
-        if (expiryFilter === 30) {
-          return daysDiff <= expiryFilter;
-        } else if (expiryFilter === 60) {
-          return daysDiff <= expiryFilter;
-        } else {
-          return true;
-        }
-      });
+      const filteredStocks = showAll
+        ? item.stocksArray
+        : item.stocksArray.filter((stock) => {
+            const [year, month, day] = stock.expiryDate.split("-").map(Number);
+            const expiryDate = new Date(Date.UTC(year, month - 1, day));
+            const currentDate = new Date();
+            const timeDiff = expiryDate.getTime() - currentDate.getTime();
+            const daysDiff = timeDiff / (1000 * 3600 * 24);
+            if (expiryFilter === 30) {
+              return daysDiff <= expiryFilter;
+            } else if (expiryFilter === 60) {
+              return daysDiff <= expiryFilter;
+            } else {
+              return true;
+            }
+          });
       if (filteredStocks.length > 0) {
         return { ...item, stocksArray: filteredStocks };
       } else {
@@ -73,27 +77,86 @@ export default function StocksComponent({ data }) {
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="Search"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={() => setExpiryFilter(30)}>1 Month till Expiry</button>
-      <button onClick={() => setExpiryFilter(60)}>2 Months till Expiry</button>
-      <ul>
-        {searchResults.map((item, itemIndex) => (
-          <li key={`${item.testName}-${itemIndex}`}>
-            <h2>{item.testName}</h2>
-            <ul>
-              {item.stocksArray.map((stock, stockIndex) => (
-                <li key={`${stock.instrument}-${stockIndex}`}>
-                  {stock.instrument} - {stock.amount} - {stock.expiryDate}
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      <div className="flex items-center relative">
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border border-gray-400 rounded-md pl-8 pr-2 py-1"
+        />
+        <SearchIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      </div>
+      <div className="mt-4">
+        <button
+          onClick={() => setExpiryFilter(30)}
+          className={`${
+            expiryFilter === 30 ? "bg-green-500" : "bg-blue-500"
+          } text-white px-4 py-2 rounded-md mr-2 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50`}
+        >
+          1 Month till Expiry
+        </button>
+        <button
+          onClick={() => setExpiryFilter(60)}
+          className={`${
+            expiryFilter === 60 ? "bg-green-500" : "bg-blue-500"
+          } text-white px-4 py-2 rounded-md mr-2 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50`}
+        >
+          2 Months till Expiry
+        </button>
+        <button
+          onClick={() => setShowAll(!showAll)}
+          className={`${
+            showAll ? "bg-green-500" : "bg-blue-500"
+          } text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50`}
+        >
+          {showAll ? "Hide All" : "Show All"}
+        </button>
+      </div>
+      <table className="table-auto w-full mt-4">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 text-left">Test Name</th>
+            <th className="px-4 py-2 text-left">Instrument</th>
+            <th className="px-4 py-2 text-left">Amount</th>
+            <th className="px-4 py-2 text-left">Expiry Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchResults.map((item, itemIndex) => [
+            <tr key={`${item.testName}-${itemIndex}`}>
+              <td className="border px-4 py-2 font-bold text-lg" colSpan={4}>
+                {item.testName} :
+              </td>
+            </tr>,
+            ...item.stocksArray.map((stock, stockIndex) => {
+              const [year, month, day] = stock.expiryDate
+                .split("-")
+                .map(Number);
+              const expiryDate = new Date(Date.UTC(year, month - 1, day));
+              const currentDate = new Date();
+              const timeDiff = expiryDate.getTime() - currentDate.getTime();
+              const daysDiff = timeDiff / (1000 * 3600 * 24);
+              let rowClass = "";
+              if (daysDiff <= 30) {
+                rowClass = "bg-red-100";
+              } else if (daysDiff <= 60) {
+                rowClass = "bg-yellow-100";
+              }
+              return (
+                <tr
+                  key={`${stock.instrument}-${stockIndex}`}
+                  className={rowClass}
+                >
+                  <td className="border px-4 py-2">{stockIndex + 1}</td>
+                  <td className="border px-4 py-2">{stock.instrument}</td>
+                  <td className="border px-4 py-2">{stock.amount}</td>
+                  <td className="border px-4 py-2">{stock.expiryDate}</td>
+                </tr>
+              );
+            }),
+          ])}
+        </tbody>
+      </table>
     </>
   );
 }
