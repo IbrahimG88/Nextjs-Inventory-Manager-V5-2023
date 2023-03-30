@@ -243,7 +243,6 @@ export default function StocksForm(props) {
           )}
         </tbody>
       </table>
-      ;
     </>
   );
 }

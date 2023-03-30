@@ -76,7 +76,7 @@ export default function StocksComponent({ data }) {
     : filteredData;
 
   return (
-    <>
+    <div className="p-4">
       <div className="flex items-center relative">
         <input
           type="text"
@@ -157,6 +157,6 @@ export default function StocksComponent({ data }) {
           ])}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
