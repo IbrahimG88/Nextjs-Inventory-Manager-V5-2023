@@ -63,6 +63,13 @@ export default function StocksForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default browser behavior
+
+    // Check if any of the required fields are empty
+    if (!instrument || !amount || !expiryDate) {
+      // Display an error message to the user
+      alert("Please fill in all required fields");
+      return;
+    }
     // Do something with the input values
     console.log({ instrument, amount, expiryDate });
     const stockEntry = {
