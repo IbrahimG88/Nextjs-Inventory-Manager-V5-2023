@@ -14,6 +14,14 @@ import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import Head from "next/head";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import Link from "next/link";
 
 export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);
@@ -31,69 +39,93 @@ export default function TemporaryDrawer() {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 py-2 bg-black">
+      <nav className="flex items-center justify-between px-4 py-2 bg-slate-900">
         <IconButton
           style={{ color: "white" }}
           aria-label="open drawer"
           onClick={toggleDrawer(true)}
           sx={{ mr: 2 }}
         >
-          <MenuIcon />
+          <MenuIcon className="text-white hover:text-lime-500" />
         </IconButton>
 
         <h4 className="text-2xl font-bold  text-white transform perspective-500 rotate-x-15 rotate-y-15">
-          MedLab Inventory Manager
+          <a href="./" className="text-white hover:text-lime-500">
+            MedLab Inventory Manager
+          </a>
         </h4>
-        <div className="flex space-x-4">
-          <a href="#" className="text-white hover:text-gray-300">
-            Home
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            About
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            Contact
-          </a>
-        </div>
+
+        <div className="flex space-x-4 p-3"> </div>
       </nav>
       <Box height="1rem" />
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem
-              button
-              key={text}
-              sx={{
-                backgroundColor: "#f5f5f5",
-                borderRadius: "10px",
-                marginBottom: "10px",
-                marginRight: "50px",
-              }}
-            >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {[
+            {
+              name: "Inventory",
+              icon: <Inventory2OutlinedIcon />,
+              href: "./mui-table-search",
+            },
+            {
+              name: "Notification",
+              icon: <NotificationsOutlinedIcon />,
+              href: "./expiree-notifications",
+            },
+            {
+              name: "Add Stocks",
+
+              icon: <AddShoppingCartOutlinedIcon />,
+              href: "./stocks-to-add-3",
+            },
+            {
+              name: "Create Order",
+              icon: <CreateNewFolderOutlinedIcon />,
+              href: "./",
+            },
+          ].map((item, index) => (
+            <div key={item.name}>
+              <Link href={item.href}>
+                <ListItem
+                  button
+                  key={item.name}
+                  sx={{
+                    borderRadius: "10px",
+                    marginBottom: "10px",
+                    marginRight: "50px",
+                  }}
+                  className="hover:bg-amber-200 hover:text-black"
+                  onClick={toggleDrawer(false)}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              </Link>
+            </div>
           ))}
         </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem
-              button
-              key={text}
-              sx={{
-                backgroundColor: "#f5f5f5",
-                borderRadius: "10px",
-                marginBottom: "10px",
-              }}
-            >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {[
+            { name: "Settings", icon: <SettingsOutlinedIcon />, href: "./" },
+            { name: "SignOut", icon: <ExitToAppIcon />, href: "./" },
+          ].map((item, index, icon) => (
+            <div key={item.name}>
+              <Link href={item.href}>
+                <ListItem
+                  button
+                  key={item.name}
+                  sx={{
+                    borderRadius: "10px",
+                    marginBottom: "10px",
+                  }}
+                  className="hover:bg-amber-200 hover:text-black"
+                  onClick={toggleDrawer(false)}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              </Link>
+            </div>
           ))}
         </List>
       </Drawer>
