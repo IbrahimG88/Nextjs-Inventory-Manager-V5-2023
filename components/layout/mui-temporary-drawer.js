@@ -73,7 +73,6 @@ export default function TemporaryDrawer() {
             },
             {
               name: "Add Stocks",
-
               icon: <AddShoppingCartOutlinedIcon />,
               href: "./stocks-to-add-3",
             },

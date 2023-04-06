@@ -1,9 +1,6 @@
 VIP: next stage of the app is to create monthly average per month and yearly average per month for each test using api endpoints data to predict an amount of a given test will be sufficient for how many days
 
-work on the menu drawer and add the real components and linking to them actually, and a nice interface from tailwind or material ui or a grid for the homepage
-The homepage: create list with dividers and each elements from homepage or menu have an icon, and the header includes the app name and
-navigates to the homepage write it in a nice way using tailwind or material ui
-add app icon next to the name
+add node cron code to fetch data every hour, every minute while testing
 add the order code
 then add next-auth code
 add splash screen for the app

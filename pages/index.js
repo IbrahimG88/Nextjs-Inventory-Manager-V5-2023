@@ -13,6 +13,19 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 
+import { startCronJob } from "@/cron/node-cron-run-page";
+
+export async function getServerSideProps() {
+  // Your code to update app data goes here
+  // server.js or index.js
+
+  // Start the cron job
+  startCronJob();
+  console.log("Updating app data...");
+
+  return { props: {} };
+}
+
 export default function Home() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
