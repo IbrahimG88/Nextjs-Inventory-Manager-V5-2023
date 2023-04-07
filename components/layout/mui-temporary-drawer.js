@@ -79,7 +79,7 @@ export default function TemporaryDrawer() {
             {
               name: "Create Order",
               icon: <CreateNewFolderOutlinedIcon />,
-              href: "./",
+              href: "./create-order",
             },
           ].map((item, index) => (
             <div key={item.name}>
