@@ -105,7 +105,11 @@ export default function TemporaryDrawer() {
         <Divider />
         <List>
           {[
-            { name: "Settings", icon: <SettingsOutlinedIcon />, href: "./" },
+            {
+              name: "Settings",
+              icon: <SettingsOutlinedIcon />,
+              href: "./settings",
+            },
             { name: "SignOut", icon: <ExitToAppIcon />, href: "./" },
           ].map((item, index, icon) => (
             <div key={item.name}>
