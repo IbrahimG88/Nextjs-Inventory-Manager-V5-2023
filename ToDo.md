@@ -1,11 +1,8 @@
 VIP: next stage of the app is to create monthly average per month and yearly average per month for each test using api endpoints data to predict an amount of a given test will be sufficient for how many days
 
-add node cron code to fetch data every hour, every minute while testing
-add the order code
-then add next-auth code
 add splash screen for the app
 
-add setting component option, which can: poppulate testsList and upload all testsData to mongo, you already have this functionality in your project, delete them from mongo if you want to reset all app data\
+remains signout button in next auth and the super user areas
 
 ---
 
