@@ -110,7 +110,7 @@ export default function TemporaryDrawer() {
               icon: <SettingsOutlinedIcon />,
               href: "./settings",
             },
-            { name: "SignOut", icon: <ExitToAppIcon />, href: "./" },
+            { name: "SignOut", icon: <ExitToAppIcon />, href: "./signOut" },
           ].map((item, index, icon) => (
             <div key={item.name}>
               <Link href={item.href}>

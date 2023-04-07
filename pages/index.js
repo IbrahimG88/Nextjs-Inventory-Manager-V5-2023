@@ -14,8 +14,20 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import { startCronJob } from "@/cron/node-cron-run-page";
+import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
   // Your code to update app data goes here
   // server.js or index.js
 
@@ -23,10 +35,14 @@ export async function getServerSideProps() {
   startCronJob();
   console.log("Updating app data...");
 
-  return { props: {} };
+  return { props: { session } };
 }
 
 export default function Home() {
+  const { data: session } = useSession();
+  console.log("session", session);
+  console.log("session.user.role", session.user.role);
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
