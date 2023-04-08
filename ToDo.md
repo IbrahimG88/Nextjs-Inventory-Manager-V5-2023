@@ -25,7 +25,12 @@ Login
 </div>
 );
 ---
+
+user roles specific code this before your specific section:
+if(session && session.user.role === "super-user"){ //your code here }
+
 ---
+
 ---
 
 import { useSession } from "next-auth/react";
