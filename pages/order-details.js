@@ -92,9 +92,13 @@ export default function OrderDetails({ selectedItems }) {
               <tr key={item.id}>
                 <td className="py-2 px-4">{item.testName}</td>
                 <td className="py-2 px-4">{item.orderQuantity}</td>
-                <td className="py-2 px-4">{item.TotalStocks}</td>
                 <td className="py-2 px-4">
-                  {parseInt(item.orderQuantity) + parseInt(item.TotalStocks)}
+                  {item.TotalStocks ? item.TotalStocks : parseInt(0)}
+                </td>
+                <td className="py-2 px-4">
+                  {item.TotalStocks
+                    ? parseInt(item.orderQuantity) + parseInt(item.TotalStocks)
+                    : parseInt(item.orderQuantity)}
                 </td>
               </tr>
             ))}

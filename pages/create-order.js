@@ -53,8 +53,13 @@ export default function CreateOrder() {
           parseInt(orderQuantity);
         return newSelectedItems;
       } else {
-        const TotalAfterOrder =
-          parseInt(item.TotalStocks) + parseInt(orderQuantity);
+        let TotalAfterOrder;
+        if (item.TotalStocks >= 1) {
+          TotalAfterOrder =
+            parseInt(item.TotalStocks) + parseInt(orderQuantity);
+        } else {
+          TotalAfterOrder = parseInt(orderQuantity);
+        }
         return [
           ...prevSelectedItems,
           { ...item, orderQuantity, TotalAfterOrder },
