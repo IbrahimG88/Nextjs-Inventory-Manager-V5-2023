@@ -21,6 +21,9 @@ export default async function handler(req, res) {
     }
 
     const result = await collection.insertOne({ testsList });
+
+    client.close();
+
     return res.status(201).json(result.ops[0]);
   } catch (error) {
     console.error(error);

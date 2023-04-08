@@ -14,6 +14,7 @@ export default async function handler(req, res) {
     if (!nowDate) {
       return res.status(404).json({ message: "Tests list not found" });
     }
+    client.close();
 
     return res.status(200).json(nowDate);
   } catch (error) {

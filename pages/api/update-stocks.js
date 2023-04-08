@@ -24,6 +24,8 @@ export default async function handler(req, res) {
     };
     const result = await collection.updateOne(filter, update);
 
+    client.close();
+
     res.status(200).json({ message: "Item updated successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error updating item" });

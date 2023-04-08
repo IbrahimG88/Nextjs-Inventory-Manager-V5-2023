@@ -40,8 +40,8 @@ export async function getServerSideProps(context) {
 
 export default function Home() {
   const { data: session } = useSession();
-  console.log("session", session);
-  console.log("session.user.role", session.user.role);
+  //console.log("session", session);
+  // console.log("session.user.role", session.user.role);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

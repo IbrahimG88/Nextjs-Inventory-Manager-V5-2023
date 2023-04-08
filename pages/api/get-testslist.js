@@ -15,6 +15,7 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: "Tests list not found" });
     }
 
+    client.close();
     return res.status(200).json(existingTestsList.testsList);
   } catch (error) {
     console.error(error);

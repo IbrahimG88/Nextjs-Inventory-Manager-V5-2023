@@ -22,6 +22,8 @@ export default async function handler(req, res) {
       { $set: { testsList } },
       { upsert: true }
     );
+    client.close();
+
     return res.status(201).json({ message: "Tests list updated" });
   } catch (error) {
     console.error(error);

@@ -1,6 +1,7 @@
 // pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { connectToDatabase } from "../../../lib/db";
 
 export default NextAuth({
   providers: [
@@ -17,14 +18,17 @@ export default NextAuth({
 
         // You can also use an arbitrary data source to store your list of users
         // in the USERSLIST environment variable, a single user has 5 properties: id, name, email, password, role
-        const users = JSON.parse(process.env.USERSLIST);
+        //const users = JSON.parse(process.env.USERSLIST);
 
         // Find a matching user based on their username and password
-        const user = users.find(
-          (u) =>
-            u.email === credentials.username &&
-            u.password === credentials.password
-        );
+        const client = await connectToDatabase();
+
+        const usersCollection = client.db().collection("users");
+
+        const user = await usersCollection.findOne({
+          email: credentials.username,
+          password: credentials.password,
+        });
 
         if (!user) {
           return null;

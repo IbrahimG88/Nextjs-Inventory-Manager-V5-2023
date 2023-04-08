@@ -75,6 +75,7 @@ export async function getServerSideProps() {
     const query = { testsList: { $exists: true } };
     const updateDocument = { $set: { testsList: applyConsumptionToMongoData } };
     const result = await collectionInventory2.updateOne(query, updateDocument);
+    client.close();
 
     return {
       props: {

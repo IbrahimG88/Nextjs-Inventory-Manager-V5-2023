@@ -41,7 +41,9 @@ export default function Settings() {
   //fetch data from LIS
 
   const handlePopulate = async () => {
-    const data = await fetcher("http://197.45.107.206/api2/integration/tests");
+    const data = await fetcher(
+      `${process.env.LAB_LIS_URL}/api2/integration/tests`
+    );
 
     const transformedTestsList = Object.entries(data).map(([key, value]) => ({
       id: value.profile_id,
