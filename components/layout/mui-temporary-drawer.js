@@ -22,8 +22,26 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  return { props: { session } };
+}
 
 export default function TemporaryDrawer() {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -36,7 +54,6 @@ export default function TemporaryDrawer() {
 
     setOpen(open);
   };
-
   return (
     <>
       <nav className="flex items-center justify-between px-4 py-2 bg-slate-900">
@@ -110,7 +127,6 @@ export default function TemporaryDrawer() {
               icon: <SettingsOutlinedIcon />,
               href: "./settings",
             },
-            { name: "SignOut", icon: <ExitToAppIcon />, href: "./signOut" },
           ].map((item, index, icon) => (
             <div key={item.name}>
               <Link href={item.href}>
@@ -128,6 +144,24 @@ export default function TemporaryDrawer() {
                   <ListItemText primary={item.name} />
                 </ListItem>
               </Link>
+              <ListItem
+                button
+                key={item.name}
+                sx={{
+                  borderRadius: "10px",
+                  marginBottom: "10px",
+                }}
+                className="hover:bg-amber-200 hover:text-black"
+                onClick={() => {
+                  toggleDrawer(false);
+                  signOut();
+                }}
+              >
+                <ListItemIcon>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary="SignOut" />
+              </ListItem>
             </div>
           ))}
         </List>

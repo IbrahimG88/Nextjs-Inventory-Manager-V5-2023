@@ -4,6 +4,50 @@ add splash screen for the app
 
 remains signout button in next auth and the super user areas
 
+next-auth code in each component to add authentication:
+
+THE WORKING CODE:
+
+import { useSession, signIn } from "next-auth/react";
+
+const {data: session} = useSession();
+if (session){
+//component code
+} return (
+
+<div className="bg-white rounded-lg shadow-lg p-4">
+<h2 className="text-lg font-bold mb-4">Please login to continue</h2>
+<button
+onClick={() => signIn()}
+className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
+Login
+</button>
+</div>
+);
+---
+---
+---
+
+import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+const session = await getSession(context);
+
+if (!session) {
+return {
+redirect: {
+destination: "/api/auth/signin",
+permanent: false,
+},
+};
+}
+return { props: { session } };
+}
+
+//in component
+const { data: session } = useSession();
+
 ---
 
 i Have this array A: [{"name":"Total IgE","frequency":1},{"name":"Complete Blood Count","frequency":16},{"name":"TSH","frequency":8},{"name":"T3 (Free)","frequency":5},{"name":"T4 (Free)","frequency":6},{"name":"Serum Uric Acid","frequency":5},{"name":"Cervical Swab Culture","frequency":1},{"name":"S.G.P.T (ALT)","frequency":5},{"name":"S.G.O.T (AST)","frequency":4},{"name":"Serum B-HCG","frequency":3},{"name":"ABO Group","frequency":1},{"name":"Rh Blood Group","frequency":1},{"name":"Glycated Hemoglobin (HbA1C)","frequency":5},{"name":"Urine Analysis","frequency":8},{"name":"Progesterone","frequency":2},{"name":"Sample from home","frequency":3}];; and I have a singel object of this array B which is an array of objects:
