@@ -17,9 +17,13 @@ export default NextAuth({
 
         // You can also use an arbitrary data source to store your list of users
         // in the USERSLIST environment variable, a single user has 5 properties: id, name, email, password, role
-        const users = JSON.parse(process.env.USERSLIST);
+        //const users = JSON.parse(process.env.USERSLIST);
 
         // Find a matching user based on their username and password
+        const client = await connectToDatabase();
+
+        const usersCollection = client.db().collection("users2");
+
         const user = users.find(
           (u) =>
             u.email === credentials.username &&
