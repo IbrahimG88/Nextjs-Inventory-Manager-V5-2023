@@ -48,7 +48,7 @@ export default function Settings() {
       testName: value.report_name,
     }));
 
-    if (transformedTestsList.length !== Inventory.length) {
+    if (transformedTestsList.length !== inventory.length) {
       const response = await fetch("/api/settings-update-testsList", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
