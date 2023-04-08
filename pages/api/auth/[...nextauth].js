@@ -1,6 +1,7 @@
 // pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { connectToDatabase } from "../../../lib/db";
 
 export default NextAuth({
   providers: [
@@ -21,14 +22,14 @@ export default NextAuth({
 
         // Find a matching user based on their username and password
         const client = await connectToDatabase();
+        const db = client.db("myFirstDatabase");
 
-        const usersCollection = client.db().collection("users2");
+        const usersCollection = db.collection("users2");
 
-        const user = users.find(
-          (u) =>
-            u.email === credentials.username &&
-            u.password === credentials.password
-        );
+        const user = await usersCollection.findOne({
+          email: credentials.username,
+          password: credentials.password,
+        });
 
         if (!user) {
           return null;
