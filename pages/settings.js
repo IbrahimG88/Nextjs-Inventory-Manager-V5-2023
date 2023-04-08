@@ -63,7 +63,7 @@ export default function Settings() {
     }
   };
 
-  if (session) {
+  if (session && session.user.role === "super-user") {
     return (
       <>
         {testsList.length > 0 ? (
@@ -88,15 +88,25 @@ export default function Settings() {
       </>
     );
   } //component code
-  return (
-    <div className="bg-white rounded-lg shadow-lg p-4">
-      <h2 className="text-lg font-bold mb-4">Please login to continue</h2>
-      <button
-        onClick={() => signIn()}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Login
-      </button>
-    </div>
-  );
+  else if (!session) {
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-4">
+        <h2 className="text-lg font-bold mb-4">Please login to continue</h2>
+        <button
+          onClick={() => signIn()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Login
+        </button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-4">
+        <h2 className="text-lg font-bold mb-4">
+          You are not authorized to access the settings component..
+        </h2>
+      </div>
+    );
+  }
 }

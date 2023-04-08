@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSession, signIn } from "next-auth/react";
 
 export default function StocksForm(props) {
+  const { data: session } = useSession();
   // Define state variables for input values
   const [instrument, setInstrument] = useState("");
   const [amount, setAmount] = useState("");
@@ -130,121 +132,124 @@ export default function StocksForm(props) {
       setIsUpdating(false); // Set isUpdating to false after setUpdatedItem is completed
     }
   }
-
-  return (
-    <>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-        <title className="text-4xl block text-gray-700 text-sm font-bold mb-2">
-          Item name: {item.testName}
-        </title>
-        <br />
-        <div className="mb-4">
-          <label
-            htmlFor="instrument"
-            className="block text-gray-700 text-sm font-bold mb-2"
+  if (session) {
+    return (
+      <>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
+          <title className="text-4xl block text-gray-700 text-sm font-bold mb-2">
+            Item name: {item.testName}
+          </title>
+          <br />
+          <div className="mb-4">
+            <label
+              htmlFor="instrument"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Instrument
+            </label>
+            <input
+              type="text"
+              id="instrument"
+              name="instrument"
+              value={instrument}
+              onChange={(e) => setInstrument(e.target.value)}
+              className="form-input w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="amount"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Amount
+            </label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="form-input w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="expiryDate"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Expiry Date
+            </label>
+            <input
+              type="date"
+              id="expiryDate"
+              name="expiryDate"
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(e.target.value)}
+              className="form-input w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isUpdating} // Disable the submit button if isUpdating is true
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+              isUpdating ? "disabled:opacity-50" : ""
+            }`}
           >
-            Instrument
-          </label>
-          <input
-            type="text"
-            id="instrument"
-            name="instrument"
-            value={instrument}
-            onChange={(e) => setInstrument(e.target.value)}
-            className="form-input w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="amount"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Amount
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="form-input w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="expiryDate"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Expiry Date
-          </label>
-          <input
-            type="date"
-            id="expiryDate"
-            name="expiryDate"
-            value={expiryDate}
-            onChange={(e) => setExpiryDate(e.target.value)}
-            className="form-input w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={isUpdating} // Disable the submit button if isUpdating is true
-          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-            isUpdating ? "disabled:opacity-50" : ""
-          }`}
-        >
-          Submit
-        </button>
-        <div className=" flex justify-between">
-          <label
-            htmlFor="expiryDate"
-            className="text-4xl block text-gray-700 text-sm font-bold mb-2"
-          >
-            Total Stocks:
-          </label>
-          <h1 className="text-4xl block text-gray-700 text-sm font-bold mb-2">
-            {" "}
-            {updatedItem.totalStocks}
-          </h1>
-        </div>
-      </form>
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">Entry</th>
-            <th className="px-4 py-2">Amount</th>
-            <th className="px-4 py-2">Instrument</th>
-            <th className="px-4 py-2">Expiry Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {updatedItem.stocksArray.map(
-            (stock, index) => (
-              (stock.id = counter),
-              counter++, // increment counter by one
-              (
-                <tr key={stock.id}>
-                  <td className="border px-4 py-2">{stock.id}</td>
-                  <td className="border px-4 py-2">{stock.amount}</td>
-                  <td className="border px-4 py-2">{stock.instrument}</td>
-                  <td className="border px-4 py-2">{stock.expiryDate}</td>
-                  <td>
-                    {" "}
-                    <IconButton
-                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
-                      onClick={() => handleDelete(index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </td>
-                </tr>
+            Submit
+          </button>
+          <div className=" flex justify-between">
+            <label
+              htmlFor="expiryDate"
+              className="text-4xl block text-gray-700 text-sm font-bold mb-2"
+            >
+              Total Stocks:
+            </label>
+            <h1 className="text-4xl block text-gray-700 text-sm font-bold mb-2">
+              {" "}
+              {updatedItem.totalStocks}
+            </h1>
+          </div>
+        </form>
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">Entry</th>
+              <th className="px-4 py-2">Amount</th>
+              <th className="px-4 py-2">Instrument</th>
+              <th className="px-4 py-2">Expiry Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {updatedItem.stocksArray.map(
+              (stock, index) => (
+                (stock.id = counter),
+                counter++, // increment counter by one
+                (
+                  <tr key={stock.id}>
+                    <td className="border px-4 py-2">{stock.id}</td>
+                    <td className="border px-4 py-2">{stock.amount}</td>
+                    <td className="border px-4 py-2">{stock.instrument}</td>
+                    <td className="border px-4 py-2">{stock.expiryDate}</td>
+                    <td>
+                      {" "}
+                      {session && session.user.role === "super-user" ? (
+                        <IconButton
+                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
+                          onClick={() => handleDelete(index)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      ) : null}
+                    </td>
+                  </tr>
+                )
               )
-            )
-          )}
-        </tbody>
-      </table>
-    </>
-  );
+            )}
+          </tbody>
+        </table>
+      </>
+    );
+  }
 }
 
 // next issue to work on: when you search for an item the indexes get messed up we need to use the item id instead  of the index
