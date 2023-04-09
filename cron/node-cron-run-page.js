@@ -7,4 +7,5 @@ export async function startCronJob() {
   await fetch(`${process.env.APP_URL}/update-app-data-node-cron`);
 }
 
+// run the fuunction:
 startCronJob();
