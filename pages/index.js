@@ -31,10 +31,6 @@ export async function getServerSideProps(context) {
   // Your code to update app data goes here
   // server.js or index.js
 
-  // Start the cron job
-  startCronJob();
-  console.log("Updating app data...");
-
   return { props: { session } };
 }
 

@@ -41,9 +41,7 @@ export default function Settings() {
   //fetch data from LIS
 
   const handlePopulate = async () => {
-    const data = await fetcher(
-      `${process.env.LAB_LIS_URL}/api2/integration/tests`
-    );
+    const data = await fetcher(`http://197.45.107.206/api2/integration/tests`);
 
     const transformedTestsList = Object.entries(data).map(([key, value]) => ({
       id: value.profile_id,
@@ -56,6 +54,21 @@ export default function Settings() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ testsList: transformedTestsList }),
       });
+      if (response.status === 201) {
+        setTestsList(transformedTestsList);
+      } else {
+        const message = await response.json();
+        alert(message.message);
+      }
+    }
+
+    if (inventory === 0) {
+      const response = await fetch("/api/post-testslist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ testsList: transformedTestsList }),
+      });
+
       if (response.status === 201) {
         setTestsList(transformedTestsList);
       } else {
