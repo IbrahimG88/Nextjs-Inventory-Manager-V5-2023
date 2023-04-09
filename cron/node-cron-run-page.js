@@ -7,6 +7,6 @@ export function startCronJob() {
     console.log("running updateAppData every minute");
 
     // Call the API route to run the update app data code
-    await fetch("http://localhost:3000/update-app-data-node-cron");
+    await fetch(`${process.env.APP_URL}/update-app-data-node-cron`);
   });
 }
