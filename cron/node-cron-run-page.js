@@ -1,3 +1,4 @@
+/*
 export async function startCronJob() {
   // Schedule tasks to be run on the server.
 
@@ -11,3 +12,4 @@ export async function startCronJob() {
 startCronJob();
 
 // not using this file now
+*/

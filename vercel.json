@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/vercel-cron",
+      "path": "/update-app-data-node-cron",
       "schedule": "* * * * *"
     }
   ]
