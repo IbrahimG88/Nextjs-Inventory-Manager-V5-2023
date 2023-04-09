@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/update-app-data-node-cron",
-      "schedule": "* 1 * * *"
+      "schedule": "0 * * * *"
     }
   ]
 }
