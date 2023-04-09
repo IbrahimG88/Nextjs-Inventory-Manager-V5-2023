@@ -8,3 +8,5 @@ export async function startCronJob() {
 }
 
 // update
+
+startCronJob();
