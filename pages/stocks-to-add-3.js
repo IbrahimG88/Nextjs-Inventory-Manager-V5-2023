@@ -116,7 +116,7 @@ export default function StocksToAdd() {
                         >
                           Done
                         </button>
-                        <h1>I will add the form here</h1>
+                   
                         <StocksForm item={testsList[index]} />
                       </div>
                     </div>
@@ -143,7 +143,7 @@ export default function StocksToAdd() {
                   Done
                 </button>
               </div>
-              <h1>And I will add the form here</h1>
+            
               <StocksForm item={testsList[index]} />
             </div>
           )}
