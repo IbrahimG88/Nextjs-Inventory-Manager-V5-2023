@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/cron/node-cron-run-page",
+      "schedule": "* * * * *"
+    }
+  ]
+}
