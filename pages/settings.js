@@ -125,3 +125,5 @@ export default function Settings() {
     );
   }
 }
+
+// update the testsList from lis locally to avoid using http request
