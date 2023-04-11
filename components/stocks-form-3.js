@@ -249,6 +249,7 @@ setUpdatedItem(newUpdatedItem);
             )}
           </tbody>
         </table>
+{isUpdating ? <p className="p-4">"Data is being updated..."<p> : null}
       </>
     );
   }
