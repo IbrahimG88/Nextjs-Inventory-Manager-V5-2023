@@ -93,11 +93,12 @@ export default function StocksForm(props) {
       };
 
       console.log("item after stocks addition", newUpdatedItem);
-      await saveItem(newUpdatedItem);
+      
       setUpdatedItem(newUpdatedItem);
       setInstrument("");
       setAmount("");
       setExpiryDate("");
+await saveItem(newUpdatedItem);
     } catch (error) {
       console.error(error);
     }
