@@ -26,8 +26,8 @@ export default function StocksToAdd() {
 
     fetchTestsList();
 
-    // Refresh data every 2 seconds
-    const intervalId = setInterval(() => fetchTestsList(), 2000);
+    // Refresh data every 5 seconds
+    const intervalId = setInterval(() => fetchTestsList(), 5000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
