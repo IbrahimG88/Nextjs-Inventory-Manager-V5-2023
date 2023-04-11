@@ -190,7 +190,7 @@ export default function StocksForm(props) {
           </div>
           <button
             type="submit"
-            disabled={isUpdating} // Disable the submit button if isUpdating is true
+          
             className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
               isUpdating ? "disabled:opacity-50" : ""
             }`}
@@ -255,3 +255,6 @@ export default function StocksForm(props) {
 // next issue to work on: when you search for an item the indexes get messed up we need to use the item id instead  of the index
 
 // the issue is that setUpdatedItem is not updating by each submit
+
+// test to remove disabling the submit button
+//   disabled={isUpdating} // Disable the submit button if isUpdating is true
