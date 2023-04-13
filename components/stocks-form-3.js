@@ -93,13 +93,12 @@ export default function StocksForm(props) {
       };
 
       console.log("item after stocks addition", newUpdatedItem);
-      
-      
+
       setInstrument("");
       setAmount("");
       setExpiryDate("");
-await saveItem(newUpdatedItem);
-setUpdatedItem(newUpdatedItem);
+      await saveItem(newUpdatedItem);
+      setUpdatedItem(newUpdatedItem);
     } catch (error) {
       console.error(error);
     }
@@ -195,7 +194,6 @@ setUpdatedItem(newUpdatedItem);
           </div>
           <button
             type="submit"
-          
             className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
               isUpdating ? "disabled:opacity-50" : ""
             }`}
@@ -249,10 +247,11 @@ setUpdatedItem(newUpdatedItem);
             )}
           </tbody>
         </table>
-{isUpdating ? <p className="p-4">Data is being updated...</p> : null}
+        {isUpdating ? <p className="p-4">Data is being updated...</p> : null}
       </>
     );
   }
+  return <div>Not authorized</div>;
 }
 
 // next issue to work on: when you search for an item the indexes get messed up we need to use the item id instead  of the index
