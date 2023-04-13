@@ -132,7 +132,10 @@ export default function StocksForm(props) {
       setIsUpdating(false); // Set isUpdating to false after setUpdatedItem is completed
     }
   }
-  if (session) {
+  if (
+    session &&
+    (session.user.role === "super-user" || session.user.role === "admin")
+  ) {
     return (
       <>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
@@ -231,15 +234,12 @@ export default function StocksForm(props) {
                     <td className="border px-4 py-2">{stock.instrument}</td>
                     <td className="border px-4 py-2">{stock.expiryDate}</td>
                     <td>
-                      {" "}
-                      {session && session.user.role === "super-user" ? (
-                        <IconButton
-                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
-                          onClick={() => handleDelete(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      ) : null}
+                      <IconButton
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
+                        onClick={() => handleDelete(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </td>
                   </tr>
                 )
