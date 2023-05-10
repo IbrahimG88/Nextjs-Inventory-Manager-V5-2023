@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetcher } from "../lib/fetcher";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
 export default function PopulateTestsList() {
   const [testsList, setTestsList] = useState([]);
@@ -42,6 +44,23 @@ export default function PopulateTestsList() {
     }
   }, [testsList]);
 
+  const handleDelete = async (id, testName) => {
+    const updatedTestsList = testsList.filter((test) => test.id !== id);
+    setTestsList(updatedTestsList);
+
+    const test = { id: id, testName: testName };
+
+    const res = await fetch("/api/delete-test/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(test),
+    });
+    const data = await res.json();
+    console.log(data);
+  };
+
   return (
     <div>
       <button
@@ -59,6 +78,13 @@ export default function PopulateTestsList() {
               className="bg-gray-100 hover:bg-gray-200 py-1 px-3 rounded cursor-pointer"
             >
               {test.testName}
+              {"  "}
+              <IconButton
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
+                onClick={() => handleDelete(test.id, test.testName)}
+              >
+                <DeleteIcon />
+              </IconButton>
             </li>
           ))}
         </ul>
